@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Management Application</title>
+    <script type="text/javascript" src="https:\\ajax.googleapis.com\ajax\libs\angularjs\1.8.2\angular.min.js">
+    </script>
+    <!-- or else present inside pwd -->
+    <script>
+        var app = angular.module("userMgmtApp",[]);
+        app.controller("userMgmtAppCntrl", function($scope){
+            //can be more than 1 controller controlling for multiple component
+             $scope.userList=[
+                {'name':'Harsh','email':'harshbit10@gmail.com','editing':false},
+                {'name':'Maahira','email':'harshbit10@gmail.com','editing':false},
+                {'name':'Hari','email':'harshbit10@gmail.com','editing':false},
+                //false is written without ' '
+            ];
+
+            $scope.createNewUser = function(){
+                if ($scope.newUserName && $scope.newUserEmail){
+                    var u ={
+                        'name': $scope.newUserName,
+                        'email':$scope.newUserEmail,
+                        'editing':false
+                    }
+                    $scope.userList.push(u);
+                    alert("User created");
+                    $scope.newUserName="";
+                    $scope.newUserEmail="";
+                    //json format (record set to json conversion in database)
+                    //data transfer forms are json and xml generally in microservice architecture (uses apis)
+                }
+                else{
+                    alert("Missing info.")
+                }
+            }
+
+            $scope.readUser = function(i){
+                i.editing = true;
+
+            }
+            $scope.updateUser = function(i){
+                i.editing=false;
+            }
+            $scope.deleteUser = function(i){
+
+            }
+        });    
+
+    </script>
+</head>
+<body ng-app="userMgmtApp">
+    <center>
+    <div ng-controller="userMgmtAppCntrl">
+        
+        <h1>USER MANAGEMENT APPLICATION</h1>
+
+        <table border="1">
+            <tr>
+                <td>
+                    Enter user name :
+                </td>
+                <td>
+                    <input type="text" ng-model="newUserName" placeholder="Enter user name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Enter user email :
+                </td>
+                <td>
+                    <input type="email" ng-model="newUserEmail" placeholder="Enter user email">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center>
+                    <button ng-click="createNewUser()" >Create new User</button>
+                    </center>
+                </td>
+            </tr>
+        </table>
+        <br />
+
+        <table border="1">
+            <tr>
+                <th>SLNO</th>
+                <th>Name</th>
+                <th>Email id</th>
+                <th>Read</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            <tr ng-repeat="i in userList">
+                <td>{{$index+1}}</td>
+                <td ng-show="!user.editing()">{{i.name}}</td>
+                <td ng-show="user.editing"><input type="text" ng-model="i.name" /> </td>
+                <td ng-show="!user.editing">{{i.email}}</td>
+                <td ng-show="user.editing"><input type="text" ng-model="i.email" /> </td>
+
+                <td><button ng-click="readUser(i)">Read</button></td>
+                <td><button ng-click="updateUser(i)">Update</button></td>
+                <td><button ng-click="deleteUser(i)">Delete</button></td>
+
+            </tr>
+        </table>
+    </div>
+    </center>
+</body>
+</html>
